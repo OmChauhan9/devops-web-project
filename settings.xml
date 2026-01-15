@@ -1,0 +1,33 @@
+<settings>
+    <servers>
+    <server>
+        <id>omchauhan-devops-task28-cicd</id>
+        <username>aws</username>
+        <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
+    </server>
+    </servers>
+
+    <profiles>
+    <profile>
+        <id>omchauhan-devops-task28-cicd</id>
+        <activation>
+        <activeByDefault>true</activeByDefault>
+        </activation>
+        <repositories>
+        <repository>
+            <id>omchauhan-devops-task28-cicd</id>
+            <url>https://omchauhan-582287676827.d.codeartifact.us-east-1.amazonaws.com/maven/devops-task28-cicd/</url>
+        </repository>
+        </repositories>
+    </profile>
+    </profiles>
+
+    <mirrors>
+    <mirror>
+        <id>omchauhan-devops-task28-cicd</id>
+        <name>omchauhan-devops-task28-cicd</name>
+        <url>https://omchauhan-582287676827.d.codeartifact.us-east-1.amazonaws.com/maven/devops-task28-cicd/</url>
+        <mirrorOf>*</mirrorOf>
+    </mirror>
+    </mirrors>
+</settings>
