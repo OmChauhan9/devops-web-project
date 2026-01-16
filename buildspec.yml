@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Initializing environment
-      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain omchauhan --domain-owner 123456789012 --region us-east-1 --query authorizationToken --output text`
+      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain omchauhan --domain-owner 582287676827 --region us-east-1 --query authorizationToken --output text`
 
   build:
     commands:
@@ -29,5 +29,7 @@ phases:
 artifacts:
   files:
     - target/devops-web-project.war
+    - appspec.yml
+    - scripts/**/*
 
   discard-paths: no
