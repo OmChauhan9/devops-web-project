@@ -1,58 +1,55 @@
 # Java Web App Deployment with AWS CI/CD
 
-Welcome to this project combining Java web app development and AWS CI/CD tools!
+Welcome to my completed **7-Day DevOps Challenge** project! 🚀
+
+This repository hosts a Java web application that is automatically built, tested, and deployed using a fully automated **CI/CD Pipeline** on AWS.
+
+![AWS DevOps Architecture](https://via.placeholder.com/800x400?text=Architecture+Diagram+Placeholder)
 
 <br>
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Technologies](#technologies)
-- [Setup](#setup)
+- [Architecture & Technologies](#architecture--technologies)
+- [How It Works](#how-it-works)
 - [Contact](#contact)
 - [Conclusion](#conclusion)
 
 <br>
 
 ## Introduction
-This project is used for an introduction to creating and deploying a Java-based web app using AWS, especially their CI/CD tools.
+The goal of this project was to move away from manual deployments and build a robust "Supply Chain" for software delivery.
 
-The deployment pipeline I'm building around the Java web app in this repository is invisible to the end-user, but makes a big impact by automating the software release processes.
-
-<br>
-
-## Technologies
-Here’s what I’m using for this project:
-
-- **Amazon EC2**: I'm developing my web app on Amazon EC2 virtual servers, so that software development and deployment happens entirely on the cloud.
-- **VS Code**: For my IDE, I chose Visual Studio Code. It connects directly to my development EC2 instance, making it easy to edit code and manage files in the cloud.
-- **GitHub**: All my web app code is stored and versioned in this GitHub repository.
-- **[COMING SOON] AWS CodeArtifact**: Once it's rolled out, CodeArtifact will store my artifacts and dependencies, which is great for high availability and speeding up my project's build process.
-- **[COMING SOON] AWS CodeBuild**: Once it's rolled out, CodeBuild will take over my build process. It'll compile the source code, run tests, and produce ready-to-deploy software packages automatically.
-- **[COMING SOON] AWS CodeDeploy**: Once it's rolled out, CodeDeploy will automate my deployment process across EC2 instances.
-- **[COMING SOON] AWS CodePipeline**: Once it's rolled out, CodePipeline will automate the entire process from GitHub to CodeDeploy, integrating build, test, and deployment steps into one efficient workflow.
-
+Starting with a basic Java app, I progressively implemented **Infrastructure as Code (IaC)**, **Dependency Management**, **Continuous Integration (CI)**, and **Continuous Deployment (CD)**. The result is a system where a single `git push` triggers a series of automated steps that result in a live production update minutes later.
 
 <br>
 
-## Setup
-To get this project up and running on your local machine, follow these steps:
+## Architecture & Technologies
+Here is the complete tech stack used to build this pipeline:
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/devops-web-project.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd devops-web-project
-    ```
-3. Install dependencies:
-    ```bash
-    mvn install
-    ```
+- **Amazon EC2**: Used two separate environments—a **Dev Server** for coding/testing and a **Production Server** for hosting the live application.
+- **GitHub**: Stores the source code and acts as the trigger for the pipeline via Webhooks.
+- **AWS CodeArtifact**: A secure, private repository that caches Maven dependencies. This protects the supply chain from external downtime and ensures consistent builds.
+- **AWS CodeBuild**: A fully managed build service that compiles the Java source code, runs tests, and packages the application into a `.war` file and zipped artifact.
+- **AWS CodeDeploy**: Automates the deployment to the EC2 fleet. It handles the lifecycle events (Stop Server -> Install -> Start Server) using `appspec.yml` and Bash scripts.
+- **AWS CodePipeline**: The "Conductor" of the orchestra. It connects GitHub, CodeBuild, and CodeDeploy into a single visual workflow.
+- **Amazon S3**: Acts as the artifact store, holding the zipped build outputs before they are deployed.
+- **AWS CloudFormation**: Used to define the entire infrastructure (VPC, EC2, Security Groups) as code, allowing the environment to be spun up or destroyed in minutes.
+
+<br>
+
+## How It Works
+Instead of running manual commands, this project uses an automated workflow:
+
+1. **Source**: I push a code change (e.g., updating `index.jsp`) to the `main` branch on GitHub.
+2. **Trigger**: AWS CodePipeline detects the commit and pulls the latest source code.
+3. **Build**: CodeBuild starts a new container, authenticates with **CodeArtifact** to fetch libraries, compiles the Java code using Maven, and produces a build artifact stored in **S3**.
+4. **Deploy**: CodeDeploy pulls the artifact from S3 and pushes it to the **Production EC2 Instance**.
+5. **Live**: The shell scripts (`install_dependencies.sh`, `start_server.sh`) automatically restart the Tomcat/Apache server with the new version.
+
 <br>
 
 ## Conclusion
-Thank you for exploring this project! I'll continue to build this pipeline and apply my learnings to future projects.
+This project demonstrates the power of modern DevOps tools to eliminate "it works on my machine" issues. By automating the build and deploy process, I can focus on writing code while AWS handles the delivery.
 
-A big shoutout to **[NextWork](https://learn.nextwork.org/app)** for their project guide and support. [You can get started with this DevOps series project too by clicking here.](https://learn.nextwork.org/projects/aws-devops-vscode?track=high)
-
+A big shoutout to **[NextWork](https://learn.nextwork.org/app)** for the guidance on this 7-Day DevOps Challenge. [You can check out the challenge here.](https://learn.nextwork.org/projects/aws-devops-vscode?track=high)
