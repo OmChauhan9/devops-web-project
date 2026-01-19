@@ -4,8 +4,6 @@ Welcome to my completed **7-Day DevOps Challenge** project! 🚀
 
 This repository hosts a Java web application that is automatically built, tested, and deployed using a fully automated **CI/CD Pipeline** on AWS.
 
-![AWS DevOps Architecture](https://via.placeholder.com/800x400?text=Architecture+Diagram+Placeholder)
-
 <br>
 
 ## Table of Contents
