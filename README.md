@@ -1,4 +1,4 @@
-# Java Web App Deployment with AWS CI/CD
+# Java Web App Deployment with AWS 
 
 Welcome to my completed **7-Day DevOps Challenge** project! 🚀
 
